@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KPZ_Api.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class CodeFirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

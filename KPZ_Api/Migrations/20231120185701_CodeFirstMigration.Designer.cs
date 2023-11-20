@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KPZ_Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231119190244_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231120185701_CodeFirstMigration")]
+    partial class CodeFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
