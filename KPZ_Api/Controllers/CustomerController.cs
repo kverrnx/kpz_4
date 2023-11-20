@@ -117,6 +117,5 @@ namespace KPZ_Api.Controllers
             }
             return NoContent();
         }
-
     }
 }

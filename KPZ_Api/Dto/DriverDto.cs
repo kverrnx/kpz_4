@@ -1,4 +1,6 @@
-﻿namespace KPZ_Api.Dto
+﻿using KPZ_Api.Models;
+
+namespace KPZ_Api.Dto
 {
     public class DriverDto
     {

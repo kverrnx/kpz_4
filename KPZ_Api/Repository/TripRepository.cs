@@ -1,6 +1,7 @@
 ﻿using KPZ_Api.Data;
 using KPZ_Api.Interfaces;
 using KPZ_Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace KPZ_Api.Repository
 {
@@ -11,33 +12,44 @@ namespace KPZ_Api.Repository
         {
             _context = dataContext;
         }
-        public ICollection<Trip> GetTrips()
+        public async Task<ICollection<Trip>> GetTrips()
         {
-            return _context.Trips.OrderBy(t => t.Id).ToList();
+            //return await _context.Trips.ToListAsync();
+            return await _context.Trips
+                .Include(t => t.Customer)
+                    .Include(t => t.Driver)
+                        .ToListAsync();
         }
-        public Trip GetTrip(int id)
+        public async Task<Trip> GetTrip(int id)
         {
-            return _context.Trips.Where(t => t.Id == id).FirstOrDefault();
+            return await _context.Trips
+                .Include(t => t.Customer)
+                    .Include(t => t.Driver)
+                        .FirstOrDefaultAsync(t => t.Id == id);
         }
-        public bool TripExists(int id)
+        public async Task<bool> TripExists(int id)
         {
-            return _context.Trips.Any(t => t.Id == id);
+            return await _context.Trips.AnyAsync(t => t.Id == id);
         }
-        //public bool CreateTrip(int customerId, int driverId)
-        //{
-        //    var tripCustomerEntity = _context.Customers.Where(c => c.Id == customerId).FirstOrDefault();
-        //    var tripDriverEntity = _context.Drivers.Where(d => d.Id == driverId).FirstOrDefault();
-
-
-        //}
-        public bool CreateTrip(int customerId, int driverId)
+        public async Task<bool> CreateTrip(Trip trip)
         {
-            throw new NotImplementedException();
+            _context.Add(trip);
+            return await Save();
         }
-        public bool Save()
+        public async Task<bool> UpdateTrip(Trip trip)
         {
-            var saved = _context.SaveChanges();
-            return saved > 0 ? true : false;
+            _context.Update(trip);
+            return await Save();
+        }
+        public async Task<bool> DeleteTrip(Trip trip)
+        {
+            _context.Remove(trip);
+            return await Save();
+        }
+        public async Task<bool> Save()
+        {
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0;
         }
     }
 }

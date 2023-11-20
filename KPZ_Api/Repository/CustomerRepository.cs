@@ -22,9 +22,8 @@ namespace KPZ_Api.Repository
         }
         public async Task<bool> CustomerExists(int id)
         {
-            return _context.Customers.Any(c => c.Id == id);
+            return await _context.Customers.AnyAsync(c => c.Id == id);
         }
-
         public async Task<bool> CreateCustomer(Customer customer)
         {
             _context.Add(customer);
